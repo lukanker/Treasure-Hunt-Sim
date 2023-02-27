@@ -66,17 +66,32 @@ function AutoSell()
 	local MaxCapacity = tonumber(AmountLabel.Text:split(' / ')[2])
 	local CurrentSandValue = tonumber(AmountLabel.Text:split(' / ')[1])
 
+	local FoundIsland = false
+
 
 	if CurrentSandValue >= MaxCapacity then
 		for i, Child in pairs(workspace:GetChildren()) do
 			local ShopBase = Child:FindFirstChild('ShopBase')
 
 			if Child.Name == 'SellHut' and ShopBase and ShopBase.Island.Value.Parent[CurrentIsland] == ShopBase.Island.Value then
-				print(ShopBase.Island.Value, CurrentIsland)
+				FoundIsland = true
 				local PosBeforeSelling = Character.HumanoidRootPart.Position
 				Character:MoveTo(ShopBase.Position)
 				wait(2)
 				Character:MoveTo(PosBeforeSelling)
+			end
+		end
+
+		if not FoundIsland then
+			for i, Child in pairs(workspace:GetChildren()) do
+				local ShopBase = Child:FindFirstChild('ShopBase')
+	
+				if Child.Name == 'SellHut' and ShopBase and ShopBase.Island.Value == RS.Islands.Starter then
+					local PosBeforeSelling = Character.HumanoidRootPart.Position
+					Character:MoveTo(ShopBase.Position)
+					wait(2)
+					Character:MoveTo(PosBeforeSelling)
+				end
 			end
 		end
 	end
